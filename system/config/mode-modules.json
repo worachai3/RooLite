@@ -1,0 +1,98 @@
+{
+  "modes": {
+    "code": {
+      "required_modules": [
+        "core.tool-format",
+        "core.base-rules",
+        "core.system-info",
+        "tools.file-ops.*",
+        "tools.search-ops.*"
+      ],
+      "optional_modules": [
+        "tools.mcp.*",
+        "core.optional.extended-capabilities"
+      ],
+      "instructions": [
+        "shared.language-prefs",
+        "mode-specific.code-instructions"
+      ],
+      "restrictions": {
+        "file_patterns": [".*"],
+        "tool_access": ["all"]
+      }
+    },
+    "architect": {
+      "required_modules": [
+        "core.tool-format",
+        "core.base-rules",
+        "core.system-info",
+        "tools.search-ops.*",
+        "tools.read.*"
+      ],
+      "optional_modules": [
+        "tools.mcp.*"
+      ],
+      "instructions": [
+        "shared.language-prefs",
+        "mode-specific.architect-instructions"
+      ],
+      "restrictions": {
+        "file_patterns": ["\\.md$"],
+        "tool_access": ["read", "search", "ask"]
+      }
+    },
+    "orchestrator": {
+      "required_modules": [
+        "core.tool-format",
+        "core.base-rules",
+        "core.system-info"
+      ],
+      "optional_modules": [
+        "tools.mcp.*"
+      ],
+      "instructions": [
+        "shared.language-prefs",
+        "mode-specific.orchestrator-instructions"
+      ],
+      "restrictions": {
+        "file_patterns": [],
+        "tool_access": ["switch_mode", "ask"]
+      }
+    },
+    "debug": {
+      "required_modules": [
+        "core.tool-format",
+        "core.base-rules",
+        "core.system-info",
+        "tools.file-ops.*",
+        "tools.search-ops.*"
+      ],
+      "optional_modules": [
+        "tools.mcp.*",
+        "core.optional.extended-capabilities"
+      ],
+      "instructions": [
+        "shared.language-prefs",
+        "mode-specific.debug-instructions"
+      ],
+      "restrictions": {
+        "file_patterns": [".*"],
+        "tool_access": ["read", "edit", "command", "search"]
+      }
+    }
+  },
+  "defaults": {
+    "required_modules": [
+      "core.tool-format",
+      "core.base-rules",
+      "core.system-info"
+    ],
+    "instructions": [
+      "shared.language-prefs"
+    ],
+    "restrictions": {
+      "file_patterns": [".*"],
+      "tool_access": ["read", "ask"]
+    }
+  }
+}
