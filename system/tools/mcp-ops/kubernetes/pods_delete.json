@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Name of the Pod to delete",
+      "type": "string"
+    },
+    "namespace": {
+      "description": "Namespace to delete the Pod from",
+      "type": "string"
+    }
+  },
+  "required": ["name"],
+  "title": "pods_deleteArguments",
+  "description": "Delete a Kubernetes Pod in the current or provided namespace with the provided name"
+}

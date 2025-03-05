@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "namespace": {
+      "description": "Namespace to list pods from",
+      "type": "string"
+    }
+  },
+  "required": ["namespace"],
+  "title": "pods_list_in_namespaceArguments",
+  "description": "List all the Kubernetes pods in the specified namespace in the current cluster"
+}

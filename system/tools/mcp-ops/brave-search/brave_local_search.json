@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "Local search query (e.g. 'pizza near Central Park')"
+    },
+    "count": {
+      "type": "number",
+      "description": "Number of results (1-20)",
+      "default": 5,
+      "minimum": 1,
+      "maximum": 20
+    }
+  },
+  "required": ["query"],
+  "title": "brave_local_searchArguments",
+  "description": "Searches for local businesses and places using Brave's Local Search API. Best for queries related to physical locations, businesses, restaurants, services, etc. Returns detailed information including business names, addresses, ratings, review counts, phone numbers and opening hours. Automatically falls back to web search if no local results are found."
+}

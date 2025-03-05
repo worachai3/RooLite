@@ -1,0 +1,6 @@
+{
+  "type": "object",
+  "properties": {},
+  "title": "pods_listArguments",
+  "description": "List all the Kubernetes pods in the current cluster from all namespaces"
+}

@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "properties": {
+    "job_name": {
+      "title": "Job Name",
+      "type": "string",
+      "description": "Name of the job to build"
+    },
+    "parameters": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parameters",
+      "description": "Optional build parameters as a dictionary (e.g. {\"param1\": \"value1\"})"
+    }
+  },
+  "required": ["job_name"],
+  "title": "trigger_buildArguments",
+  "description": "Triggers a Jenkins build with optional parameters. Returns a dictionary containing build information including the build number."
+}

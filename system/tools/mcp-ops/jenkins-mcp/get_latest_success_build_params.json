@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "job_name": {
+      "title": "Job Name",
+      "type": "string",
+      "description": "Name of the job to get parameters from"
+    }
+  },
+  "required": ["job_name"],
+  "title": "get_latest_success_build_paramsArguments",
+  "description": "Gets parameters from the latest successful build of a Jenkins job. Returns a dictionary containing filtered build parameters and basic build info."
+}

@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "issue_key": {
+      "type": "string",
+      "description": "Jira issue key (e.g., 'PROJ-123')"
+    },
+    "expand": {
+      "type": "string",
+      "description": "Optional fields to expand. Examples: 'renderedFields' (for rendered content), 'transitions' (for available status transitions), 'changelog' (for history)",
+      "default": null
+    },
+    "comment_limit": {
+      "type": "integer",
+      "description": "Maximum number of comments to include (0 or null for no comments)",
+      "minimum": 0,
+      "maximum": 100,
+      "default": null
+    }
+  },
+  "required": ["issue_key"]
+}

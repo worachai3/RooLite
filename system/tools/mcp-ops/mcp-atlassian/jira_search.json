@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "jql": {
+      "type": "string",
+      "description": "JQL query string. Examples:\n- Find Epics: \"issuetype = Epic AND project = PROJ\"\n- Find issues in Epic: \"parent = PROJ-123\"\n- Find by status: \"status = 'In Progress' AND project = PROJ\"\n- Find by assignee: \"assignee = currentUser()\"\n- Find recently updated: \"updated >= -7d AND project = PROJ\"\n- Find by label: \"labels = frontend AND project = PROJ\""
+    },
+    "fields": {
+      "type": "string",
+      "description": "Comma-separated fields to return",
+      "default": "*all"
+    },
+    "limit": {
+      "type": "number",
+      "description": "Maximum number of results (1-50)",
+      "default": 10,
+      "minimum": 1,
+      "maximum": 50
+    }
+  },
+  "required": ["jql"]
+}
