@@ -149,6 +149,36 @@
         "type": "create",
         "capabilities": ["new", "initialize"]
       }
+    },
+    "core.mcp.server-registry": {
+      "path": "core/mcp/server-registry.md",
+      "required": true,
+      "dependencies": ["core.tool-format", "core.mcp.base"],
+      "metadata": {
+        "category": "mcp",
+        "type": "core",
+        "capabilities": ["server", "registry", "management"]
+      }
+    },
+    "core.mcp.server-capabilities": {
+      "path": "core/mcp/server-capabilities.md",
+      "required": true,
+      "dependencies": ["core.mcp.server-registry"],
+      "metadata": {
+        "category": "mcp",
+        "type": "core",
+        "capabilities": ["capabilities", "tools", "resources"]
+      }
+    },
+    "core.mcp.server-config": {
+      "path": "core/mcp/server-config.md",
+      "required": true,
+      "dependencies": ["core.mcp.server-registry"],
+      "metadata": {
+        "category": "mcp",
+        "type": "core",
+        "capabilities": ["config", "env", "auth"]
+      }
     }
   }
 }

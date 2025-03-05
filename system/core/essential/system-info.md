@@ -9,8 +9,8 @@ This module provides essential system information and context that is required a
 ```
 Operating System: macOS Sonoma
 Default Shell: /bin/zsh
-Home Directory: /Users/worachaiwuttiworachairung
-Current Working Directory: /Users/worachaiwuttiworachairung/Work/git_repo/init-roocode
+Home Directory: ${process.env.HOME_PATH}
+Current Working Directory: ${process.env.ROOT_PATH}
 ```
 
 ### File System Context

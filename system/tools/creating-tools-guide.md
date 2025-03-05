@@ -58,7 +58,7 @@ Example: Brief description of the example
    - List each parameter with (required) or (optional) designation
    - Clear description of parameter purpose
    - Any constraints or format requirements
-   - Current working directory path for file operations: /Users/worachaiwuttiworachairung/Work/git_repo/init-roocode
+   - Current working directory path for file operations: ${ROOT_DIR}
 
 5. **Usage Section**
    - Show basic XML structure

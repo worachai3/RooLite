@@ -11,7 +11,7 @@ This module defines the fundamental rules and guidelines that apply across all m
 3. Never assume success without explicit confirmation
 
 ### Path Rules
-1. Current working directory: `/Users/worachaiwuttiworachairung/Work/git_repo/init-roocode`
+1. Current working directory: `${ROOT_DIR}`
 2. Cannot change working directory
 3. Use absolute paths, no `~` or `$HOME` references
 

@@ -6,6 +6,25 @@ This document provides a comprehensive guide on creating and integrating new sys
 
 A modular system prompt mode consists of several components organized in specific directories:
 
+## Content Reference Guidelines
+
+### Key Rules
+1. No placeholders allowed in any content
+2. All content must reference existing files when available
+3. Use absolute paths from project root for all file references
+
+### File Reference Format
+- Use absolute paths starting from project root:
+  ```
+  /system/instructions/shared/language-prefs.md
+  /system/core/essential/base-rules.md
+  ```
+- Never use relative paths or placeholders
+- Avoid using full content
+- Always use reference path if possible to import content instead of full content
+- Reference source files directly to maintain consistency
+- Keep content DRY (Don't Repeat Yourself) by referencing existing definitions
+
 ```
 system/
 ├── config/
@@ -26,25 +45,18 @@ system/
 1. Create a new file in `system/instructions/mode-specific/[your-mode]-instructions.md`
 2. Structure the file with these sections:
    ```markdown
-   # Your Mode Name
+   # Mode Name and Structure
+   
+   Follow the structure from existing mode files like /system/instructions/mode-specific/debug-instructions.md:
 
-   ## Role Definition
-   [Define the mode's primary role and purpose]
+   ## Required Sections
+   1. Role Definition
+   2. Capabilities
+   3. Response Guidelines
+   4. Restrictions
 
-   ## Capabilities
-   - List specific capabilities
-   - Special features
-   - Tool access permissions
-
-   ## Response Guidelines
-   - Output format requirements
-   - Special handling procedures
-   - Response patterns
-
-   ## Restrictions
-   - File type limitations
-   - Tool usage constraints
-   - Access controls
+   Each section should contain concrete, specific content relevant to the mode's purpose.
+   Reference existing content and patterns from other mode files for consistency.
    ```
 
 ### 2. Update Module Configuration
@@ -91,7 +103,15 @@ Select appropriate modules based on your mode's needs:
    - extended-capabilities.md: Additional tools and features
    - Custom modules as needed
 
-### 4. Define Access Controls
+### 4. Update System Prompt File
+
+Update the system-prompt-<mode> file to align with modular system:
+1. Structure the content according to modular system standards
+2. Define capabilities and rules sections
+3. Add tool usage guidelines
+4. Include modular system integration notes
+
+### 5. Define Access Controls
 
 Configure restrictions in mode-modules.json:
 
@@ -111,33 +131,16 @@ Configure restrictions in mode-modules.json:
 Here's a complete example for a debug mode:
 
 1. **Mode-Specific Instructions** (`debug-instructions.md`):
-   ```markdown
-   # Debug Mode
+    ```markdown
+    # Reference to actual debug mode content
+    [Content imported from /system/instructions/mode-specific/debug-instructions.md]
+    ```
 
-   ## Role Definition
-   Expert software debugger specializing in systematic problem diagnosis.
-
-   ## Capabilities
-   - Systematic problem diagnosis
-   - Log analysis
-   - Error tracing
-   - Performance analysis
-
-   ## Response Guidelines
-   1. Problem Analysis
-      - List potential causes
-      - Prioritize likely sources
-   2. Investigation
-      - Add logging
-      - Monitor behavior
-   3. Resolution
-      - Implement fixes
-      - Verify solutions
-
-   ## Restrictions
-   - Require confirmation before fixes
-   - Document all changes
-   ```
+    The actual content is maintained in the referenced file to ensure consistency and avoid duplication. Key sections include:
+    - Role Definition: Expert software debugger for systematic problem diagnosis
+    - Capabilities: Including log analysis, error tracing, and performance analysis
+    - Response Guidelines: Structured approach to problem-solving
+    - Restrictions: Safety measures and documentation requirements
 
 2. **Module Configuration** (`mode-modules.json`):
    ```json
