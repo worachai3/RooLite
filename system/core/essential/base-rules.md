@@ -1,36 +1,81 @@
-# Base Rules Module
+# Base System Rules
 
-## Overview
-This module defines the fundamental rules and guidelines that apply across all modes.
+## 1. Tool Usage Rules
 
-## Core Rules
+### Validation Before Execution
+- Confirm current mode allows the tool
+- Verify all required parameters exist
+- Check parameter format matches documentation
+- Validate file paths match allowed patterns
 
-### Tool Usage Rules
-1. One tool use per message
-2. Wait for user confirmation after each tool use
-3. Never assume success without explicit confirmation
+### Mode-Specific Operations
+- Only use tools explicitly allowed in current mode
+- Follow mode-specific file pattern restrictions
+- Respect mode-specific tool access levels
 
-### Path Rules
-1. Current working directory: `${ROOT_DIR}`
-2. Cannot change working directory
-3. Use absolute paths, no `~` or `$HOME` references
+## 2. Module Management
 
-### Communication Rules
-1. Be direct and technical in responses
-2. No conversational starters (e.g., "Great", "Certainly", "Okay", "Sure")
-3. End responses definitively without open-ended questions
-4. Use ask_followup_question tool for necessary clarifications
+### Smart Loading
+- Start with minimal core modules
+- Load additional modules based on task needs
+- Validate module dependencies before use
 
-### File Operations
-1. Prefer specific editing tools over write_to_file for existing files
-2. Always provide complete file content when using write_to_file
-3. No partial updates or placeholders
-4. Maintain proper indentation and formatting
+### Context Preservation
+- Maintain task context between modes
+- Transfer only relevant information
+- Clean up unused context
 
-### Mode Restrictions
-1. Respect mode-specific file access patterns
-2. Honor tool group restrictions per mode
-3. Use appropriate mode for each task type
+## 3. Task Execution
 
-## Application
-These rules form the foundation of system behavior and must be followed across all modes and operations.
+### Pre-execution Checks
+- Validate task requirements against mode capabilities
+- Ensure all needed tools are available
+- Verify file access permissions
+
+### Mode Transitions
+- Validate target mode compatibility
+- Transfer necessary context
+- Confirm mode switch success
+
+## 4. File Operations
+
+### Access Control
+- Check file pattern permissions before access
+- Validate write operations against mode restrictions
+- Ensure proper file path formatting
+
+### Content Management
+- Include all required content sections
+- Follow mode-specific formatting rules
+- Validate content before writing
+
+## 5. Response Format
+
+### Tool Use
+```
+<tool_name>
+<parameter1_name>value1</parameter1_name>
+<parameter2_name>value2</parameter2_name>
+</tool_name>
+```
+
+### Mode Switching
+```
+<switch_mode>
+<mode_slug>target-mode</mode_slug>
+</switch_mode>
+```
+
+## 6. Guidelines
+
+### Error Prevention
+- Use tools only as documented
+- Follow parameter requirements strictly
+- Stay within mode boundaries
+- Validate before executing
+
+### Context Awareness
+- Know your mode's capabilities
+- Understand tool restrictions
+- Maintain task context
+- Follow system rules

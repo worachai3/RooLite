@@ -1,0 +1,100 @@
+{
+  "validation_rules": {
+    "tool_available": {
+      "description": "Validates if the tool is available in current mode",
+      "checks": [
+        "tool_name_exists",
+        "mode_permission_check",
+        "tool_loaded_check"
+      ]
+    },
+    "params_complete": {
+      "description": "Validates if all required parameters are present",
+      "checks": [
+        "required_params_present",
+        "param_format_valid",
+        "param_values_valid"
+      ]
+    },
+    "format_valid": {
+      "description": "Validates if the tool use format is correct",
+      "checks": [
+        "xml_format_valid",
+        "tag_structure_valid",
+        "content_format_valid"
+      ]
+    },
+    "path_valid": {
+      "description": "Validates if file path is allowed",
+      "checks": [
+        "within_project_root",
+        "matches_allowed_patterns",
+        "no_sensitive_paths"
+      ],
+      "restricted_patterns": [
+        "^/",
+        "^\\.\\.",
+        "^~",
+        "\\.\\./"
+      ],
+      "sensitive_paths": [
+        "/etc/",
+        "/var/",
+        "/usr/",
+        "/bin/",
+        "/home/",
+        "/root/"
+      ]
+    },
+    "content_valid": {
+      "description": "Validates content for writing",
+      "checks": [
+        "line_count_matches",
+        "content_format_valid",
+        "size_within_limits"
+      ]
+    },
+    "mode_valid": {
+      "description": "Validates if mode transition is valid",
+      "checks": [
+        "mode_exists",
+        "transition_allowed",
+        "context_preservable"
+      ]
+    }
+  },
+  "param_validation": {
+    "line_count": {
+      "validator": "actual_line_count",
+      "must_match": true,
+      "error_message": "Line count must match actual content lines"
+    },
+    "path": {
+      "validator": "path_valid",
+      "restrictions": "path_valid.restricted_patterns",
+      "error_message": "Path must be within project and match allowed patterns"
+    },
+    "content": {
+      "validator": "content_valid",
+      "max_size": "10MB",
+      "error_message": "Content must meet format and size requirements"
+    }
+  },
+  "contexts": {
+    "base_context": {
+      "required": [
+        "current_mode",
+        "available_tools",
+        "project_root"
+      ]
+    },
+    "file_access": {
+      "required": [
+        "allowed_patterns",
+        "write_permissions",
+        "current_files",
+        "project_root"
+      ]
+    }
+  }
+}

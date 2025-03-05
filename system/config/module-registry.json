@@ -1,184 +1,113 @@
 {
-  "modules": {
-    "tools.file-ops.read": {
-      "path": "tools/file-ops/read.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "file",
-        "type": "read",
-        "capabilities": ["read", "binary", "text"]
+  "module_groups": {
+    "core": {
+      "tool-format": {
+        "required": true,
+        "dependencies": [],
+        "load_order": 1,
+        "validation": {
+          "pre_load": ["format_rules_present"],
+          "post_load": ["format_validator_active"]
+        }
+      },
+      "base-rules": {
+        "required": true,
+        "dependencies": ["core.tool-format"],
+        "load_order": 2,
+        "validation": {
+          "pre_load": ["core_format_loaded"],
+          "post_load": ["rules_active"]
+        }
+      },
+      "system-info": {
+        "required": true,
+        "dependencies": ["core.base-rules"],
+        "load_order": 3,
+        "validation": {
+          "pre_load": ["base_rules_active"],
+          "post_load": ["system_info_available"]
+        }
       }
     },
-    "tools.file-ops.write": {
-      "path": "tools/file-ops/write.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "file",
-        "type": "write",
-        "capabilities": ["write", "create", "modify"]
+    "tools": {
+      "file-ops": {
+        "read_file": {
+          "dependencies": ["core.*"],
+          "validation": {
+            "pre_load": ["file_access_available"],
+            "runtime": ["path_valid", "file_readable"]
+          }
+        },
+        "write_to_file": {
+          "dependencies": ["core.*"],
+          "validation": {
+            "pre_load": ["file_access_available"],
+            "runtime": ["path_valid", "content_valid", "write_permitted"]
+          }
+        },
+        "list_files": {
+          "dependencies": ["core.*"],
+          "validation": {
+            "pre_load": ["file_access_available"],
+            "runtime": ["path_valid", "directory_readable"]
+          }
+        }
+      },
+      "search-ops": {
+        "search_files": {
+          "dependencies": ["core.*", "tools.file-ops.read_file"],
+          "validation": {
+            "pre_load": ["file_access_available"],
+            "runtime": ["pattern_valid", "search_scope_valid"]
+          }
+        }
+      },
+      "task-ops": {
+        "switch_mode": {
+          "dependencies": ["core.*"],
+          "validation": {
+            "pre_load": ["mode_system_active"],
+            "runtime": ["mode_exists", "transition_valid"]
+          }
+        },
+        "ask_followup_question": {
+          "dependencies": ["core.*"],
+          "validation": {
+            "pre_load": ["interaction_enabled"],
+            "runtime": ["question_format_valid"]
+          }
+        }
       }
+    }
+  },
+  "load_strategies": {
+    "lazy": {
+      "description": "Load modules only when needed",
+      "trigger": "first_use",
+      "cleanup": "task_completion"
     },
-    "tools.file-ops.diff": {
-      "path": "tools/file-ops/diff.md",
-      "required": true,
-      "dependencies": ["core.tool-format", "tools.file-ops.read"],
-      "metadata": {
-        "category": "file",
-        "type": "modify",
-        "capabilities": ["diff", "replace", "update"]
-      }
+    "eager": {
+      "description": "Load all required modules at start",
+      "trigger": "mode_init",
+      "cleanup": "mode_exit"
     },
-    "tools.file-ops.insert": {
-      "path": "tools/file-ops/insert.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "file",
-        "type": "modify",
-        "capabilities": ["insert", "add"]
-      }
-    },
-    "tools.file-ops.list": {
-      "path": "tools/file-ops/list.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "file",
-        "type": "read",
-        "capabilities": ["list", "browse"]
-      }
-    },
-    "tools.file-ops.code-definitions": {
-      "path": "tools/file-ops/code-definitions.md",
-      "required": false,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "code",
-        "type": "analyze",
-        "capabilities": ["definitions", "structure"]
-      }
-    },
-    "tools.search-ops.search-files": {
-      "path": "tools/search-ops/search-files.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "search",
-        "type": "search",
-        "capabilities": ["regex", "pattern"]
-      }
-    },
-    "tools.search-ops.search-replace": {
-      "path": "tools/search-ops/search-replace.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "search",
-        "type": "modify",
-        "capabilities": ["search", "replace"]
-      }
-    },
-    "tools.mcp.tools": {
-      "path": "tools/mcp/tools.md",
-      "required": false,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "mcp",
-        "type": "execute",
-        "capabilities": ["external", "tools"]
-      }
-    },
-    "tools.mcp.resources": {
-      "path": "tools/mcp/resources.md",
-      "required": false,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "mcp",
-        "type": "access",
-        "capabilities": ["external", "resources"]
-      }
-    },
-    "tools.task-ops.questions": {
-      "path": "tools/task-ops/questions.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "task",
-        "type": "interact",
-        "capabilities": ["ask", "clarify"]
-      }
-    },
-    "tools.task-ops.execute": {
-      "path": "tools/task-ops/execute.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "task",
-        "type": "execute",
-        "capabilities": ["command", "system"]
-      }
-    },
-    "tools.task-ops.attempt": {
-      "path": "tools/task-ops/attempt.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "task",
-        "type": "complete",
-        "capabilities": ["finish", "report"]
-      }
-    },
-    "tools.task-ops.switch": {
-      "path": "tools/task-ops/switch.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "task",
-        "type": "control",
-        "capabilities": ["mode", "switch"]
-      }
-    },
-    "tools.task-ops.new-task": {
-      "path": "tools/task-ops/new-task.md",
-      "required": true,
-      "dependencies": ["core.tool-format"],
-      "metadata": {
-        "category": "task",
-        "type": "create",
-        "capabilities": ["new", "initialize"]
-      }
-    },
-    "core.mcp.server-registry": {
-      "path": "core/mcp/server-registry.md",
-      "required": true,
-      "dependencies": ["core.tool-format", "core.mcp.base"],
-      "metadata": {
-        "category": "mcp",
-        "type": "core",
-        "capabilities": ["server", "registry", "management"]
-      }
-    },
-    "core.mcp.server-capabilities": {
-      "path": "core/mcp/server-capabilities.md",
-      "required": true,
-      "dependencies": ["core.mcp.server-registry"],
-      "metadata": {
-        "category": "mcp",
-        "type": "core",
-        "capabilities": ["capabilities", "tools", "resources"]
-      }
-    },
-    "core.mcp.server-config": {
-      "path": "core/mcp/server-config.md",
-      "required": true,
-      "dependencies": ["core.mcp.server-registry"],
-      "metadata": {
-        "category": "mcp",
-        "type": "core",
-        "capabilities": ["config", "env", "auth"]
-      }
+    "preemptive": {
+      "description": "Load based on likely usage",
+      "trigger": "context_analysis",
+      "cleanup": "context_change"
+    }
+  },
+  "context_preservation": {
+    "mode_transition": {
+      "preserve": [
+        "task_context",
+        "file_access_state",
+        "validation_state"
+      ],
+      "cleanup": [
+        "mode_specific_state",
+        "temporary_resources"
+      ]
     }
   }
 }

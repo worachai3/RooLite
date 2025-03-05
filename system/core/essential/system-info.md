@@ -1,55 +1,100 @@
-# System Information Module
+# System Information
 
-## Overview
-This module provides essential system information and context that is required across all modes.
+## Mode System
 
-## System Context
+### Mode Structure
+Each mode has:
+- Defined tool permissions
+- File pattern restrictions
+- Required modules
+- Specific capabilities
 
-### Environment Information
+### Smart Validation
+```mermaid
+graph TD
+    A[Task Request] --> B[Mode Validation]
+    B --> C[Tool Validation]
+    C --> D[Parameter Validation]
+    D --> E[Execution]
+    
+    B -- Invalid --> F[Mode Switch Required]
+    C -- Invalid --> G[Tool Not Available]
+    D -- Invalid --> H[Parameter Error]
 ```
-Operating System: macOS Sonoma
-Default Shell: /bin/zsh
-Home Directory: ${process.env.HOME_PATH}
-Current Working Directory: ${process.env.ROOT_PATH}
+
+## Tool System
+
+### Tool Categories
+1. File Operations
+   - Restricted by mode permissions
+   - File pattern validation
+   - Content format checking
+
+2. Mode Operations
+   - Context-aware transitions
+   - Capability validation
+   - State preservation
+
+3. Task Operations
+   - Pre-execution validation
+   - Context management
+   - Result verification
+
+### Parameter Validation
+- Required parameters checked
+- Format validation
+- Context-specific rules
+- Type checking
+
+## Module System
+
+### Loading Strategy
+```mermaid
+graph LR
+    A[Core Modules] --> B[Task Analysis]
+    B --> C[Required Modules]
+    C --> D[Load Dependencies]
+    D --> E[Validate State]
 ```
 
-### File System Context
-The system maintains awareness of:
-- Current working directory structure
-- File paths relative to working directory
-- Project organization and file types
-- Directory accessibility and permissions
+### Module Types
+1. Core (Always loaded)
+   - tool-format
+   - base-rules
+   - system-info
 
-### IDE Integration
-The system operates within Visual Studio Code with:
-- Active editor documents
-- Open terminal instances
-- Integrated test support
-- Output pane for command results
-- File system watchers
+2. Mode-specific
+   - Loaded based on mode
+   - Validated before use
 
-## Context Usage Guidelines
+3. Task-specific
+   - Loaded on demand
+   - Cleaned up after use
 
-### Working Directory
-- All file operations are relative to current working directory
-- Full paths must be used for external directory access
-- Directory structure used for project context
+## Context Management
 
-### Environment Details
-- System information included in environment_details
-- Project structure provided on task start
-- Active terminal tracking
-- File change monitoring
+### State Tracking
+- Current mode capabilities
+- Available tools
+- File permissions
+- Task requirements
 
-### Context Maintenance
-- Environment details auto-updated per message
-- File system changes tracked
-- Terminal state monitored
-- IDE state maintained
+### Context Preservation
+- Mode transition state
+- Task progress
+- Required resources
+- Error prevention state
 
-## Application
-This system information provides crucial context for:
-- Tool operation
-- Path resolution
-- Environment interaction
-- Project navigation
+## File Operations
+
+### Access Control
+- Mode-specific patterns
+- Permission validation
+- Format requirements
+- Content validation
+
+### Content Management
+- Format validation
+- Required sections
+- Line count validation
+- Structure checking

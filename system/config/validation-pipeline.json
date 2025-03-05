@@ -1,0 +1,146 @@
+{
+  "validation_pipeline": {
+    "stages": {
+      "1_initial_check": {
+        "order": 1,
+        "checks": [
+          "mode_permissions",
+          "tool_availability",
+          "basic_params"
+        ],
+        "stop_on_failure": true
+      },
+      "2_parameter_validation": {
+        "order": 2,
+        "checks": [
+          "param_types",
+          "param_formats",
+          "param_constraints"
+        ],
+        "stop_on_failure": true
+      },
+      "3_state_validation": {
+        "order": 3,
+        "checks": [
+          "system_state",
+          "mode_state",
+          "task_state"
+        ],
+        "stop_on_failure": true
+      },
+      "4_resource_validation": {
+        "order": 4,
+        "checks": [
+          "file_access",
+          "memory_available",
+          "dependencies_loaded"
+        ],
+        "stop_on_failure": true
+      },
+      "5_mcp_validation": {
+        "order": 5,
+        "checks": [
+          "server_connection",
+          "tool_availability",
+          "parameter_schema"
+        ],
+        "stop_on_failure": true
+      }
+    },
+    "tool_validations": {
+      "read_file": {
+        "required_stages": ["1_initial_check", "2_parameter_validation", "4_resource_validation"],
+        "specific_checks": {
+          "file_exists": true,
+          "file_readable": true,
+          "path_allowed": true
+        }
+      },
+      "write_to_file": {
+        "required_stages": ["1_initial_check", "2_parameter_validation", "4_resource_validation"],
+        "specific_checks": {
+          "directory_writable": true,
+          "content_valid": true,
+          "line_count_matches": true
+        }
+      },
+      "use_mcp_tool": {
+        "required_stages": ["1_initial_check", "2_parameter_validation", "5_mcp_validation"],
+        "specific_checks": {
+          "server_connected": true,
+          "tool_exists": true,
+          "params_match_schema": true
+        }
+      },
+      "search_files": {
+        "required_stages": ["1_initial_check", "2_parameter_validation", "4_resource_validation"],
+        "specific_checks": {
+          "valid_regex": true,
+          "path_searchable": true
+        }
+      },
+      "switch_mode": {
+        "required_stages": ["1_initial_check", "2_parameter_validation", "3_state_validation"],
+        "specific_checks": {
+          "mode_exists": true,
+          "context_preservable": true,
+          "transition_allowed": true
+        }
+      }
+    },
+    "validation_actions": {
+      "pre_execution": {
+        "1": "load_tool_requirements",
+        "2": "validate_parameters",
+        "3": "check_state",
+        "4": "verify_resources",
+        "5": "verify_mcp_connection"
+      },
+      "execution": {
+        "1": "track_changes",
+        "2": "maintain_state",
+        "3": "preserve_context"
+      },
+      "post_execution": {
+        "1": "verify_results",
+        "2": "update_state",
+        "3": "cleanup_resources"
+      }
+    },
+    "error_prevention": {
+      "param_coercion": false,
+      "auto_correction": false,
+      "strict_validation": true,
+      "comprehensive_checks": true
+    },
+    "validation_responses": {
+      "on_failure": {
+        "action": "prevent_execution",
+        "message": "Operation prevented due to validation failure",
+        "provide_details": true
+      },
+      "on_warning": {
+        "action": "log_warning",
+        "continue": false,
+        "require_confirmation": true
+      }
+    },
+    "mcp_validation": {
+      "connection_check": {
+        "timeout": 5000,
+        "retry_count": 1,
+        "required": true
+      },
+      "tool_check": {
+        "verify_existence": true,
+        "verify_permissions": true,
+        "required": true
+      },
+      "parameter_validation": {
+        "check_schema": true,
+        "validate_values": true,
+        "required": true
+      }
+    }
+  }
+}

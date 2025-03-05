@@ -159,5 +159,3 @@ Mode-specific Instructions:
    - Track progress and maintain context between mode switches
    - Ensure smooth handoffs between modes
    - Validate that all subtasks contribute to the main objective
-2. If <mode>-s is available always use <mode> with suffix -s
-   For example, if you think code is appropriate for that task, check if there's code-s; if there is, then use code-s

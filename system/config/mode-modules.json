@@ -5,6 +5,9 @@
         "core.tool-format",
         "core.base-rules",
         "core.system-info",
+        "core.parameter-types",
+        "core.state-management",
+        "core.validation-pipeline",
         "tools.file-ops.*",
         "tools.search-ops.*"
       ],
@@ -14,11 +17,16 @@
       ],
       "instructions": [
         "shared.language-prefs",
+        "shared.smart-system-base",
         "mode-specific.code-instructions"
       ],
       "restrictions": {
         "file_patterns": [".*"],
-        "tool_access": ["all"]
+        "tool_access": ["all"],
+        "validation_rules": {
+          "pre_execution": ["tool_available", "params_complete", "format_valid", "state_valid"],
+          "context_required": ["current_task", "file_access", "system_state"]
+        }
       }
     },
     "architect": {
@@ -26,6 +34,9 @@
         "core.tool-format",
         "core.base-rules",
         "core.system-info",
+        "core.parameter-types",
+        "core.state-management",
+        "core.validation-pipeline",
         "tools.search-ops.*",
         "tools.read.*"
       ],
@@ -34,29 +45,42 @@
       ],
       "instructions": [
         "shared.language-prefs",
+        "shared.smart-system-base",
         "mode-specific.architect-instructions"
       ],
       "restrictions": {
         "file_patterns": ["\\.md$"],
-        "tool_access": ["read", "search", "ask"]
+        "tool_access": ["read", "search", "ask"],
+        "validation_rules": {
+          "pre_execution": ["tool_available", "params_complete", "format_valid", "state_valid"],
+          "context_required": ["planning_context", "system_state"]
+        }
       }
     },
     "orchestrator": {
       "required_modules": [
         "core.tool-format",
         "core.base-rules",
-        "core.system-info"
+        "core.system-info",
+        "core.parameter-types",
+        "core.state-management",
+        "core.validation-pipeline"
       ],
       "optional_modules": [
         "tools.mcp.*"
       ],
       "instructions": [
         "shared.language-prefs",
+        "shared.smart-system-base",
         "mode-specific.orchestrator-instructions"
       ],
       "restrictions": {
         "file_patterns": [],
-        "tool_access": ["switch_mode", "ask"]
+        "tool_access": ["switch_mode", "ask"],
+        "validation_rules": {
+          "pre_execution": ["mode_valid", "context_preservable", "state_valid"],
+          "context_required": ["task_stack", "mode_history", "system_state"]
+        }
       }
     },
     "debug": {
@@ -64,6 +88,9 @@
         "core.tool-format",
         "core.base-rules",
         "core.system-info",
+        "core.parameter-types",
+        "core.state-management",
+        "core.validation-pipeline",
         "tools.file-ops.*",
         "tools.search-ops.*"
       ],
@@ -73,95 +100,16 @@
       ],
       "instructions": [
         "shared.language-prefs",
+        "shared.smart-system-base",
         "mode-specific.debug-instructions"
       ],
       "restrictions": {
         "file_patterns": [".*"],
-        "tool_access": ["read", "edit", "command", "search"]
-      }
-    },
-    "handoff-manager": {
-      "required_modules": [
-        "core.tool-format",
-        "core.base-rules",
-        "core.system-info",
-        "tools.file-ops.*",
-        "tools.search-ops.*"
-      ],
-      "optional_modules": [
-        "tools.mcp.*"
-      ],
-      "instructions": [
-        "shared.language-prefs",
-        "mode-specific.handoff-manager-instructions"
-      ],
-      "restrictions": {
-        "file_patterns": ["\\.md$"],
-        "tool_access": ["read", "edit", "search"]
-      }
-    },
-    "milestone-manager": {
-      "required_modules": [
-        "core.tool-format",
-        "core.base-rules",
-        "core.system-info",
-        "tools.file-ops.*",
-        "tools.search-ops.*"
-      ],
-      "optional_modules": [
-        "tools.mcp.*"
-      ],
-      "instructions": [
-        "shared.language-prefs",
-        "mode-specific.milestone-manager-instructions"
-      ],
-      "restrictions": {
-        "file_patterns": ["\\.md$"],
-        "tool_access": ["read", "edit", "search", "command"]
-      }
-    },
-    "session-restorer": {
-      "required_modules": [
-        "core.tool-format",
-        "core.base-rules",
-        "core.system-info",
-        "tools.file-ops.read_file",
-        "tools.file-ops.list_files",
-        "tools.search-ops.*"
-      ],
-      "optional_modules": [
-        "tools.mcp.*"
-      ],
-      "instructions": [
-        "shared.language-prefs",
-        "mode-specific.session-restorer-instructions"
-      ],
-      "restrictions": {
-        "file_patterns": ["\\.md$"],
-        "tool_access": ["read", "search"]
-      }
-    },
-    "devops": {
-      "required_modules": [
-        "core.tool-format",
-        "core.base-rules",
-        "core.system-info",
-        "tools.file-ops.*",
-        "tools.search-ops.*"
-      ],
-      "optional_modules": [
-        "tools.mcp.*",
-        "core.optional.extended-capabilities"
-      ],
-      "instructions": [
-        "shared.language-prefs",
-        "mode-specific.devops-instructions"
-      ],
-      "restrictions": {
-        "file_patterns": [
-          "\\.(tf|ya?ml|json|conf|sh|py|md)$"
-        ],
-        "tool_access": ["read", "edit", "command", "search", "mcp"]
+        "tool_access": ["read", "edit", "command", "search"],
+        "validation_rules": {
+          "pre_execution": ["tool_available", "params_complete", "format_valid", "state_valid"],
+          "context_required": ["debug_context", "error_state", "system_state"]
+        }
       }
     }
   },
@@ -169,14 +117,22 @@
     "required_modules": [
       "core.tool-format",
       "core.base-rules",
-      "core.system-info"
+      "core.system-info",
+      "core.parameter-types",
+      "core.state-management",
+      "core.validation-pipeline"
     ],
     "instructions": [
-      "shared.language-prefs"
+      "shared.language-prefs",
+      "shared.smart-system-base"
     ],
     "restrictions": {
       "file_patterns": [".*"],
-      "tool_access": ["read", "ask"]
+      "tool_access": ["read", "ask"],
+      "validation_rules": {
+        "pre_execution": ["tool_available", "params_complete", "state_valid"],
+        "context_required": ["base_context", "system_state"]
+      }
     }
   }
 }
