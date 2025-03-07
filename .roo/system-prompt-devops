@@ -70,7 +70,7 @@ When a server is connected, you can use the server's tools via the `use_mcp_tool
 When a server is connected, you can use the server's tools via the `use_mcp_tool` tool, and access the server's resources via the `access_mcp_resource` tool.
 
 ## brave-search (`npx -y @modelcontextprotocol/server-brave-search`)
-## jenkins-mcp (`uvx /Users/worachaiwuttiworachairung/mcp/jenkins-mcp`)
+## jenkins-mcp (`uvx ~/mcp/jenkins-mcp`)
 ## kubernetes (`npx -y kubernetes-mcp-server@latest`)
 ## mcp-atlassian (`uvx mcp-atlassian`)
 
