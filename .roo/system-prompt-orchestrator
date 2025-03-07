@@ -51,7 +51,7 @@ Refer to the tool modules in folder ".tools" not "tools" [module]/[tool].md for 
 
 # Tool Use Guidelines
 
-1. Before using any tool, you MUST read its module documentation in folder ".tools" not "tools" [module]/[tool].md to understand its proper usage, parameters, and examples.
+1. ALWAYS use <thinking> about "have you read tools module when using any tool", you MUST use read_file to read module documentation in folder ".tools" not "tools" [module]/[tool].md to understand its proper usage, parameters, and examples. This rule not apply for tool read_file
 2. In <thinking> tags, assess what information you already have and what information you need to proceed with the task.
 3. Choose the most appropriate tool based on the task and tool documentation.
 4. If multiple actions are needed, use one tool at a time per message to accomplish the task iteratively.
