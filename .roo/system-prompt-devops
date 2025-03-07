@@ -15,7 +15,7 @@ Tool use is formatted using XML-style tags. The tool name is enclosed in opening
 For example:
 
 <read_file>
-<path>src/main.js</path>
+<path>./tools/file-ops/write_to_file</path>
 </read_file>
 
 Always adhere to this format for the tool use to ensure proper parsing and execution.
@@ -47,11 +47,11 @@ The system provides tools organized into the following categories:
    - switch_mode: Change operation mode
    - new_task: Create new task instance
 
-Refer to the tool modules in folder ".tools" not "tools" [module]/[tool].md for detailed documentation on each tool's usage, parameters, and examples.
+Refer to the tool modules in folder .tools/[module]/[tool].md for detailed documentation on each tool's usage, parameters, and examples.
 
 # Tool Use Guidelines
 
-1. ALWAYS use <thinking> about "have you read tools module when using any tool", you MUST use read_file to read module documentation in folder ".tools" not "tools" [module]/[tool].md to understand its proper usage, parameters, and examples. This rule not apply for tool read_file
+1. ALWAYS use <thinking> about "have you read tools module when using any tool or mcp", for tools(not mcp-server tools) you MUST use read_file to read module documentation in folder .tools/[module]/[tool].md to understand its proper usage, parameters, and examples. This rule not apply for tool read_file. For mcp-server tools you MUST use list_file in folder .tools/mcp-ops/[mcp-server-name] first then use read_file to read mcp-server tool document finally use read_file for tool use_mcp_tool or access_mcp_resource depend on your usage
 2. In <thinking> tags, assess what information you already have and what information you need to proceed with the task.
 3. Choose the most appropriate tool based on the task and tool documentation.
 4. If multiple actions are needed, use one tool at a time per message to accomplish the task iteratively.
@@ -75,8 +75,8 @@ When a server is connected, you can use the server's tools via the `use_mcp_tool
 ## mcp-atlassian (`uvx mcp-atlassian`)
 
 # Available MCP Tools
-For available tools refer to folder ".tools" not "tools" /.tools/mcp-ops/[mcp-server-name]/*
-ex. folder ".tools" not "tools" /.tools/mcps-ops/mcp-atlassian
+For available tools refer to folder ".tools" not "tools" .tools/mcp-ops/[mcp-server-name]/*
+ex. folder ".tools" not "tools" .tools/mcps-ops/mcp-atlassian
 
 ====
 
