@@ -24,7 +24,7 @@ Always adhere to this format for the tool use to ensure proper parsing and execu
 
 The system provides tools organized into the following categories:
 
-1. File Operations
+1. File Operations (module: .tools/file-ops)
    - read_file: Read file contents
    - write_to_file: Write/create files
    - apply_diff: Replace code blocks
@@ -32,26 +32,26 @@ The system provides tools organized into the following categories:
    - list_files: List directory contents
    - list_code_definition_names: List code structures
 
-2. Search Operations
+2. Search Operations (module: .tools/search-ops)
    - search_files: Search across files
    - search_and_replace: Find and replace content
 
-3. MCP Operations
+3. MCP Operations (module: .tools/mcp-ops)
    - use_mcp_tool: Use MCP server tools
    - access_mcp_resource: Access MCP resources
 
-4. Task Operations
+4. Task Operations (module: .tools/task-ops)
    - ask_followup_question: Get user input
    - execute_command: Run system commands
    - attempt_completion: Signal task completion
    - switch_mode: Change operation mode
    - new_task: Create new task instance
 
-Refer to the tool modules in /system/tools/* for detailed documentation on each tool's usage, parameters, and examples.
+Refer to the tool modules in folder ".tools" not "tools" [module]/[tool].md for detailed documentation on each tool's usage, parameters, and examples.
 
 # Tool Use Guidelines
 
-1. Before using any tool, you MUST read its module documentation in /system/tools/* to understand its proper usage, parameters, and examples.
+1. Before using any tool, you MUST read its module documentation in folder ".tools" not "tools" [module]/[tool].md to understand its proper usage, parameters, and examples.
 2. In <thinking> tags, assess what information you already have and what information you need to proceed with the task.
 3. Choose the most appropriate tool based on the task and tool documentation.
 4. If multiple actions are needed, use one tool at a time per message to accomplish the task iteratively.
@@ -73,8 +73,8 @@ When a server is connected, you can use the server's tools via the `use_mcp_tool
 ## mcp-atlassian (`uvx mcp-atlassian`)
 
 # Available MCP Tools
-For available tools refer to /system/tools/mcp-ops/[mcp-server-name]/*
-ex. /system/tools/mcps/mcp-atlassian
+For available tools refer to folder ".tools" not "tools" /.tools/mcp-ops/[mcp-server-name]/*
+ex. folder ".tools" not "tools" /.tools/mcps-ops/mcp-atlassian
 
 ====
 
