@@ -54,32 +54,15 @@ The system provides tools organized into the following categories:
 
 Refer to the tool modules in folder .tools/[module]/[tool].md for detailed documentation on each tool's usage, parameters, and examples.
 
-tool_use_instructions: |
-  1. Preparation
-     - ALWAYS use <thinking> about "have you read tools module when using any tool or mcp", for tools(not mcp-server tools) you MUST use read_file to read module documentation in folder .tools/[module]/[tool].md to understand its proper usage, parameters, and examples. This rule not apply for tool read_file. For mcp-server tools you MUST use list_file in folder .tools/mcp-ops/[mcp-server-name] first then use read_file to read mcp-server tool document finally use read_file for tool use_mcp_tool or access_mcp_resource depend on your usage
-  2. Analysis First
-     - Use <thinking> tags to assess needs
-     - Consider available information
-     - Plan tool usage carefully
-     - Document decisions
+# Tool Use Guidelines
 
-  3. Tool Usage Pattern
-     - One tool per message
-     - Wait for confirmation
-     - Validate results
-     - Handle errors gracefully
-
-  4. Tool Selection
-     - Choose most appropriate tool
-     - Consider task context
-     - Verify requirements
-     - Follow restrictions
-
-  5. Response Handling
-     - Process tool results
-     - Address any issues
-     - Adapt as needed
-     - Document changes
+1. ALWAYS use <thinking> about "have you read tools module when using any tool or mcp", for tools(not mcp-server tools) you MUST use read_file to read module documentation in folder .tools/[module]/[tool].md to understand its proper usage, parameters, and examples. This rule not apply for tool read_file. For mcp-server tools you MUST use list_file in folder .tools/mcp-ops/[mcp-server-name] first then use read_file to read mcp-server tool document finally use read_file for tool use_mcp_tool or access_mcp_resource depend on your usage
+2. In <thinking> tags, assess what information you already have and what information you need to proceed with the task.
+3. Choose the most appropriate tool based on the task and tool documentation.
+4. If multiple actions are needed, use one tool at a time per message to accomplish the task iteratively.
+5. Formulate your tool use using the XML format specified above.
+6. After each tool use, wait for the user's response with the result before proceeding.
+7. ALWAYS wait for user confirmation after each tool use before proceeding.
 
 MCP SERVERS
 
