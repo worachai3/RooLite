@@ -1,0 +1,348 @@
+core_tools:
+  use_mcp_tool:
+    description: "Execute tools provided by connected MCP servers"
+    basic_usage: "Interact with MCP server capabilities"
+    advanced_usage: |
+      - Each server provides specialized tools
+      - Tools have defined input schemas
+      - Parameters follow server specifications
+      - One operation per message
+    when_to_use: [
+      "Executing server-specific operations",
+      "Integrating with external services",
+      "Performing specialized tasks",
+      "Accessing advanced capabilities"
+    ]
+    comparison: |
+      Different from standard tools because:
+      - Parameters vary by server and tool
+      - Requires server connection
+      - More specialized operations
+    parameters:
+      server_name:
+        required: true
+        description: "Name of the MCP server providing the tool"
+      tool_name:
+        required: true
+        description: "Name of the tool to execute"
+      arguments:
+        required: true
+        description: "JSON object containing tool parameters"
+
+  access_mcp_resource:
+    description: "Access resources from connected MCP servers"
+    basic_usage: "Retrieve server-provided resources"
+    advanced_usage: |
+      - Resources can be files, APIs, or system info
+      - URIs follow server-specific formats
+      - Resources provide contextual data
+      - One access per message
+    when_to_use: [
+      "Accessing server data sources",
+      "Retrieving external resources",
+      "Getting contextual information",
+      "Utilizing server capabilities"
+    ]
+    comparison: |
+      Different from read_file because:
+      - Accesses remote resources
+      - Uses URI-based identification
+      - Server-managed content
+    parameters:
+      server_name:
+        required: true
+        description: "Name of the MCP server providing the resource"
+      uri:
+        required: true
+        description: "URI identifying the specific resource"
+
+servers:
+
+  mcp_atlassian:
+    server_name: "mcp-atlassian"
+    description: "Atlassian integration tools"
+    tools:
+      confluence_search:
+        description: "Search Confluence content"
+        when_to_use: "Finding documentation and technical content"
+        parameters: {
+          query: "Search term or CQL query",
+          limit: "Max results (1-50)"
+        }
+
+      confluence_get_page:
+        description: "Get specific Confluence page content"
+        when_to_use: "Retrieving detailed documentation"
+        parameters: {
+          page_id: "Confluence page ID",
+          include_metadata: "Include page metadata"
+        }
+
+      confluence_get_page_children:
+        description: "Get child pages of Confluence page"
+        when_to_use: "Retrieving nested documentation structure"
+        parameters: {
+          parent_id: "Parent page ID",
+          expand: "Fields to expand",
+          limit: "Max results (1-50)",
+          include_content: "Include page content"
+        }
+
+      confluence_get_comments:
+        description: "Get page comments"
+        when_to_use: "Reviewing page discussions"
+        parameters: {
+          page_id: "Confluence page ID"
+        }
+
+      confluence_create_page:
+        description: "Create new Confluence page"
+        when_to_use: "Adding new documentation"
+        parameters: {
+          space_key: "Space key (e.g., DEV, TEAM)",
+          title: "Page title",
+          content: "Page content in Markdown",
+          parent_id: "Optional parent page ID"
+        }
+
+      confluence_update_page:
+        description: "Update existing page"
+        when_to_use: "Modifying documentation"
+        parameters: {
+          page_id: "Page to update",
+          title: "New title",
+          content: "New content in Markdown",
+          is_minor_edit: "Whether this is minor",
+          version_comment: "Optional comment"
+        }
+
+      confluence_delete_page:
+        description: "Delete Confluence page"
+        when_to_use: "Removing outdated documentation"
+        parameters: {
+          page_id: "Page to delete"
+        }
+
+      jira_get_issue:
+        description: "Get Jira issue details"
+        when_to_use: "Retrieving task specifications"
+        parameters: {
+          issue_key: "Jira issue key (e.g., PROJ-123)",
+          expand: "Fields to expand",
+          comment_limit: "Max comments to include"
+        }
+
+      jira_search:
+        description: "Search Jira issues using JQL"
+        when_to_use: "Finding relevant tasks/issues"
+        parameters: {
+          jql: "JQL query string",
+          fields: "Fields to return",
+          limit: "Max results (1-50)"
+        }
+
+      jira_create_issue:
+        description: "Create new Jira issue"
+        when_to_use: "Creating tasks or bugs"
+        parameters: {
+          project_key: "Project key",
+          summary: "Issue title",
+          issue_type: "Type (Task, Bug, etc)",
+          assignee: "Issue assignee",
+          description: "Issue description",
+          additional_fields: "Optional extra fields"
+        }
+
+      jira_update_issue:
+        description: "Update Jira issue"
+        when_to_use: "Modifying existing issues"
+        parameters: {
+          issue_key: "Issue to update",
+          fields: "Fields to update",
+          additional_fields: "Optional extra fields"
+        }
+
+      jira_add_comment:
+        description: "Add comment to issue"
+        when_to_use: "Providing updates or feedback"
+        parameters: {
+          issue_key: "Issue key",
+          comment: "Comment text"
+        }
+
+      jira_add_worklog:
+        description: "Log work on issue"
+        when_to_use: "Tracking time spent"
+        parameters: {
+          issue_key: "Issue key",
+          time_spent: "Time in Jira format",
+          comment: "Optional comment",
+          started: "Start time (ISO format)"
+        }
+
+      jira_get_worklog:
+        description: "Get issue worklogs"
+        when_to_use: "Reviewing time tracking"
+        parameters: {
+          issue_key: "Issue key"
+        }
+
+      jira_link_to_epic:
+        description: "Link issue to epic"
+        when_to_use: "Organizing related issues"
+        parameters: {
+          issue_key: "Issue to link",
+          epic_key: "Target epic"
+        }
+
+      jira_get_epic_issues:
+        description: "Get epic's issues"
+        when_to_use: "Reviewing epic scope"
+        parameters: {
+          epic_key: "Epic key",
+          limit: "Max results (1-50)"
+        }
+
+  jenkins_mcp:
+    server_name: "jenkins-mcp"
+    description: "Jenkins CI/CD integration"
+    tools:
+      list_jobs:
+        description: "List Jenkins jobs"
+        when_to_use: "Viewing available pipelines"
+        parameters: {}
+
+      get_latest_success_build_params:
+        description: "Get successful build parameters"
+        when_to_use: "Reviewing working configurations"
+        parameters: {
+          job_name: "Name of the job"
+        }
+
+      trigger_build:
+        description: "Trigger Jenkins build"
+        when_to_use: "Starting CI/CD jobs"
+        parameters: {
+          job_name: "Job to build",
+          parameters: "Optional build parameters"
+        }
+
+      get_build_status:
+        description: "Check build status"
+        when_to_use: "Monitoring build progress"
+        parameters: {
+          job_name: "Job name",
+          build_number: "Optional build number"
+        }
+
+  brave_search:
+    server_name: "brave-search"
+    description: "Brave Search integration"
+    tools:
+      brave_web_search:
+        description: "Web search using Brave"
+        when_to_use: "General information gathering"
+        parameters: {
+          query: "Search query",
+          count: "Number of results (1-20)",
+          offset: "Pagination offset"
+        }
+
+      brave_local_search:
+        description: "Local business search"
+        when_to_use: "Finding nearby places"
+        parameters: {
+          query: "Local search query",
+          count: "Number of results (1-20)"
+        }
+
+  kubernetes:
+    server_name: "kubernetes"
+    description: "Kubernetes cluster management"
+    tools:
+      configuration_view:
+        description: "Get kubeconfig content"
+        when_to_use: "Viewing cluster config"
+        parameters: {}
+
+      pods_list:
+        description: "List Kubernetes pods"
+        when_to_use: "Viewing running containers"
+        parameters: {}
+
+      pods_list_in_namespace:
+        description: "List pods in namespace"
+        when_to_use: "Namespace-specific pod listing"
+        parameters: {
+          namespace: "Target namespace"
+        }
+
+      pods_get:
+        description: "Get pod details"
+        when_to_use: "Inspecting specific container"
+        parameters: {
+          name: "Pod name",
+          namespace: "Optional namespace"
+        }
+
+      pods_delete:
+        description: "Delete Kubernetes pod"
+        when_to_use: "Removing containers"
+        parameters: {
+          name: "Pod to delete",
+          namespace: "Optional namespace"
+        }
+
+      pods_log:
+        description: "Get pod logs"
+        when_to_use: "Viewing container output"
+        parameters: {
+          name: "Pod name",
+          namespace: "Optional namespace"
+        }
+
+      pods_run:
+        description: "Run new pod"
+        when_to_use: "Starting containers"
+        parameters: {
+          image: "Container image",
+          name: "Optional pod name",
+          namespace: "Optional namespace",
+          port: "Optional exposed port"
+        }
+
+      resources_create_or_update:
+        description: "Create/update K8s resource"
+        when_to_use: "Managing cluster resources"
+        parameters: {
+          resource: "Resource YAML/JSON"
+        }
+
+      resources_delete:
+        description: "Delete K8s resource"
+        when_to_use: "Removing resources"
+        parameters: {
+          apiVersion: "Resource API version",
+          kind: "Resource kind",
+          name: "Resource name",
+          namespace: "Optional namespace"
+        }
+
+      resources_get:
+        description: "Get K8s resource"
+        when_to_use: "Inspecting resources"
+        parameters: {
+          apiVersion: "Resource API version",
+          kind: "Resource kind",
+          name: "Resource name",
+          namespace: "Optional namespace"
+        }
+
+      resources_list:
+        description: "List K8s resources"
+        when_to_use: "Viewing resource collections"
+        parameters: {
+          apiVersion: "Resource API version",
+          kind: "Resource kind",
+          namespace: "Optional namespace"
+        }

@@ -1,0 +1,331 @@
+tools:
+  # Standard Tools
+  read_file:
+    description: "Read contents of a file at specified path"
+    basic_usage: "Use to examine contents of existing files"
+    advanced_usage: |
+      - Can handle PDF and DOCX files by extracting raw text
+      - Line numbers in output help with referencing specific sections
+      - Useful for analyzing code before making changes
+    when_to_use: [
+      "Examining source code before modifications",
+      "Reviewing configuration files",
+      "Checking file contents before applying changes",
+      "Understanding code context and dependencies"
+    ]
+    parameters:
+      path:
+        required: true
+        description: "The path of the file to read (relative to working directory)"
+
+  search_files:
+    description: "Perform regex search across files in specified directory"
+    basic_usage: "Search for patterns or content across multiple files"
+    advanced_usage: |
+      - Provides context-rich results with surrounding lines
+      - Can be combined with file pattern filtering
+      - Great for understanding code patterns and relationships
+    when_to_use: [
+      "Finding specific code implementations",
+      "Identifying patterns across codebase",
+      "Locating files containing specific content",
+      "Understanding code usage and dependencies"
+    ]
+    comparison: |
+      More efficient than execute_command with grep when:
+      - You need context around matches
+      - Want to search recursively with file type filtering
+      - Need structured output for analysis
+    parameters:
+      path:
+        required: true
+        description: "Directory to search in"
+      regex:
+        required: true
+        description: "Regular expression pattern to search for"
+      file_pattern:
+        required: false
+        description: "Glob pattern to filter files"
+
+  list_files:
+    description: "List files and directories within specified directory"
+    basic_usage: "Explore directory contents"
+    advanced_usage: |
+      - Can list recursively or just top level
+      - Useful for project structure analysis
+      - Better than execute_command with ls for structured output
+    when_to_use: [
+      "Understanding project structure",
+      "Finding relevant files",
+      "Verifying directory contents",
+      "Planning refactoring or changes"
+    ]
+    parameters:
+      path:
+        required: true
+        description: "Directory to list contents for"
+      recursive:
+        required: false
+        description: "Whether to list files recursively"
+
+  list_code_definition_names:
+    description: "List code definitions like classes, functions, methods"
+    basic_usage: "Get overview of code structure"
+    advanced_usage: |
+      - Reveals code organization and relationships
+      - Helps understand architectural patterns
+      - Useful before making structural changes
+    when_to_use: [
+      "Understanding codebase structure",
+      "Planning refactoring",
+      "Finding relevant code sections",
+      "Analyzing code dependencies"
+    ]
+    parameters:
+      path:
+        required: true
+        description: "Directory to list definitions for"
+
+  apply_diff:
+    description: "Make precise code changes using unified diff format"
+    basic_usage: "Replace specific sections of code"
+    advanced_usage: |
+      - Requires exact indentation and context
+      - Groups related changes in hunks
+      - Preserves code formatting
+    when_to_use: [
+      "Making precise code modifications",
+      "Refactoring specific sections",
+      "Applying systematic changes",
+      "Modifying existing functions/methods"
+    ]
+    comparison: |
+      Preferred over write_to_file when:
+      - Making targeted changes to existing code
+      - Need to preserve file formatting
+      - Working with large files
+    parameters:
+      path:
+        required: true
+        description: "File to modify"
+      diff:
+        required: true
+        description: "Unified diff format changes"
+      start_line:
+        required: true
+        description: "Starting line number"
+      end_line:
+        required: true
+        description: "Ending line number"
+
+  write_to_file:
+    description: "Write complete content to a file"
+    basic_usage: "Create new files or completely rewrite existing ones"
+    advanced_usage: |
+      - Must provide complete file content
+      - Creates directories if needed
+      - No partial updates allowed
+    when_to_use: [
+      "Creating new files",
+      "Complete file rewrites",
+      "Initial project setup",
+      "Creating configuration files"
+    ]
+    comparison: |
+      Use other tools (apply_diff, insert_content) for:
+      - Modifying existing files
+      - Adding new content to files
+      - Making targeted changes
+    parameters:
+      path:
+        required: true
+        description: "File to write to"
+      content:
+        required: true
+        description: "Complete file content"
+      line_count:
+        required: true
+        description: "Number of lines in content"
+
+  insert_content:
+    description: "Add content at specific lines in files"
+    basic_usage: "Insert new code or content into existing files"
+    advanced_usage: |
+      - Handles multiple insertions in one operation
+      - Maintains proper indentation
+      - Perfect for adding functions/methods
+    when_to_use: [
+      "Adding new functions or methods",
+      "Inserting import statements",
+      "Adding configuration entries",
+      "Expanding existing files"
+    ]
+    comparison: |
+      Better than write_to_file when:
+      - Adding new content to existing files
+      - Need to preserve existing content
+      - Making multiple insertions
+    parameters:
+      path:
+        required: true
+        description: "File to insert into"
+      operations:
+        required: true
+        description: "Array of insertion operations"
+
+  search_and_replace:
+    description: "Find and replace text in files"
+    basic_usage: "Replace specific text patterns"
+    advanced_usage: |
+      - Supports regex patterns
+      - Can restrict to line ranges
+      - Multiple operations in one call
+    when_to_use: [
+      "Global text replacements",
+      "Updating variable names",
+      "Changing configuration values",
+      "Systematic code updates"
+    ]
+    comparison: |
+      Use apply_diff instead when:
+      - Making structural code changes
+      - Need precise control over changes
+      - Working with complex code blocks
+    parameters:
+      path:
+        required: true
+        description: "File to modify"
+      operations:
+        required: true
+        description: "Array of search/replace operations"
+
+  execute_command:
+    description: "Run CLI commands"
+    basic_usage: "Execute system commands"
+    advanced_usage: |
+      - Can specify working directory
+      - Handles long-running commands
+      - Creates new terminal instance per command
+    when_to_use: [
+      "Running build commands",
+      "Executing tests",
+      "Starting development servers",
+      "System operations"
+    ]
+    parameters:
+      command:
+        required: true
+        description: "Command to execute"
+      cwd:
+        required: false
+        description: "Working directory"
+
+  switch_mode:
+    description: "Switch to a different mode for specific tasks"
+    basic_usage: "Change current operation mode"
+    advanced_usage: |
+      - Allows seamless context switching
+      - Preserves task state across modes
+      - Useful for complex multi-stage tasks
+    when_to_use: [
+      "Switching to code mode for implementation",
+      "Moving to architect mode for planning",
+      "Changing to debug mode for troubleshooting"
+    ]
+    parameters:
+      mode_slug:
+        required: true
+        description: "Slug of the mode to switch to (e.g., code, ask, architect)"
+      reason:
+        required: false
+        description: "Reason for switching modes"
+
+  new_task:
+    description: "Create a new task with specified mode and message"
+    basic_usage: "Start new task in specific mode"
+    advanced_usage: |
+      - Creates new Cline instance
+      - Maintains separate context per task
+      - Useful for parallel work streams
+    when_to_use: [
+      "Starting new feature implementation",
+      "Beginning separate debugging session",
+      "Creating independent task context"
+    ]
+    parameters:
+      mode:
+        required: true
+        description: "Mode slug for new task"
+      message:
+        required: true
+        description: "Initial task instructions"
+
+  ask_followup_question:
+    description: "Ask user for additional information"
+    basic_usage: "Get clarification or details"
+    advanced_usage: |
+      - Use sparingly to maintain efficiency
+      - Frame questions clearly and specifically
+      - Only ask what's necessary for the task
+    when_to_use: [
+      "Needing clarification on requirements",
+      "Missing required parameters",
+      "Resolving ambiguities",
+      "Gathering essential task details"
+    ]
+    comparison: |
+      Try to avoid using by:
+      - Checking existing files first
+      - Using list_files for path verification
+      - Inferring from context when possible
+    parameters:
+      question:
+        required: true
+        description: "Clear, specific question for user"
+
+  attempt_completion:
+    description: "Present task result to user"
+    basic_usage: "Show completion of work"
+    advanced_usage: |
+      - Can include demo commands
+      - Must confirm previous tool successes
+      - No conversation continuations
+    when_to_use: [
+      "Task is fully completed",
+      "All tool uses confirmed successful",
+      "Ready to demonstrate results"
+    ]
+    guidelines: |
+      IMPORTANT:
+      - Never use without confirming previous tool successes
+      - Don't end with questions or conversation hooks
+      - Keep results final and conclusive
+    parameters:
+      result:
+        required: true
+        description: "Final task result description"
+      command:
+        required: false
+        description: "Optional demo command (e.g., open index.html)"
+
+efficiency_tips:
+  - "Use list_files before read_file to locate relevant files"
+  - "Prefer apply_diff over write_to_file for existing files"
+  - "Use insert_content for adding new code to existing files"
+  - "Combine search_files with read_file for targeted changes"
+  - "Use list_code_definition_names to understand code structure"
+  - "Chain MCP tools for complex workflows (e.g., Jira + Confluence)"
+  - "Leverage Kubernetes resource tools for cluster management"
+  - "Minimize ask_followup_question usage by checking context first"
+  - "Confirm all tool successes before attempt_completion"
+
+best_practices:
+  - "Always verify file paths before operations"
+  - "Include sufficient context in diffs"
+  - "Use appropriate tools for different change types"
+  - "Consider file size when choosing tools"
+  - "Check tool results before proceeding"
+  - "Document MCP tool usage in comments"
+  - "Use proper error handling with Kubernetes operations"
+  - "Keep questions focused and specific"
+  - "Make completion results final and conclusive"

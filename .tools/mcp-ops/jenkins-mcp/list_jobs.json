@@ -1,6 +1,0 @@
-{
-  "type": "object",
-  "properties": {},
-  "title": "list_jobsArguments",
-  "description": "Lists all Jenkins jobs in the configured Jenkins instance. No parameters required."
-}

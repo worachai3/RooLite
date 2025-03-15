@@ -1,6 +1,0 @@
-{
-  "type": "object",
-  "properties": {},
-  "title": "configuration_viewArguments",
-  "description": "Get the current Kubernetes configuration content as a kubeconfig YAML"
-}
